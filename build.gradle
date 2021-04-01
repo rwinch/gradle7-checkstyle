@@ -1,0 +1,25 @@
+plugins {
+    id 'checkstyle'
+    id 'java'
+}
+
+repositories {
+	mavenCentral()
+}
+
+def dollar = '$'
+checkstyle {
+	config = project.getResources().getText().fromString("""<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+        "https://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+<module name = "Checker">
+  <module name="FileTabCharacter">
+    <property name="eachLine" value="true"/>
+  </module>
+  <module name="SuppressionFilter">
+    <property name="file" value="${dollar}{config_loc}/suppressions.xml" default=""/>
+    <property name="optional" value="true"/>
+  </module>
+</module>""")
+	configProperties["config_loc"] = project.relativePath("etc/checkstyle")
+}
